@@ -15,7 +15,7 @@ def crypto_hash(*args):
 
 def main():
     print(f"crypto_hash('one',2,[3]):{crypto_hash('one',2,[3])}")
-    print(f"crypto_hash('two',2,[3]):{crypto_hash('two',2,[3])}")
+    print(f"crypto_hash(1,'two',[3]):{crypto_hash(1,'two',[3])}")
     print(f"crypto_hash(1,2,[3]):{crypto_hash(1,2,[3])}")
 
 
