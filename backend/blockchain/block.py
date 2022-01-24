@@ -1,6 +1,7 @@
 import time
 
 from backend.util.crypto_hash import crypto_hash
+from backend.util.hex_to_binary import hex_to_binary
 from backend.config import MINE_RATE
 
 GENESIS_DATA = {
@@ -13,6 +14,10 @@ GENESIS_DATA = {
 }
 
 class Block:
+    """
+    Block: a unit of storage.
+    Store transactions in a blockchain that supports a cryptocurrency.
+    """
     def __init__(self,timestamp, last_hash, hash, data, difficulty, nonce):
         self.data = data
         self.timestamp = timestamp
@@ -21,13 +26,16 @@ class Block:
         self.difficulty = difficulty
         self.nonce = nonce
 
+    def add_block(self, data):
+        self.chain.append(Block(data))
+
     def __repr__(self):
         return(
             'Block('
             f'timestamp: {self.timestamp}, '  
             f'last_hash: {self.last_hash}, '
             f'hash: {self.hash}, '
-            f'hash: {self.data}), '
+            f'data: {self.data}), '
             f'difficulty:{self.difficulty}, '
             f'nonce:{self.nonce})'
         )
@@ -41,7 +49,7 @@ class Block:
         nonce = 0
         hash = crypto_hash(timestamp,last_hash,data,difficulty,nonce)
 
-        while hash[0:difficulty] != '0' * difficulty:
+        while hex_to_binary(hash)[0:difficulty] != '0' * difficulty:
             nonce += 1
             timestamp = time.time_ns()
             difficulty = Block.adjust_difficulty(last_block, timestamp)
@@ -52,12 +60,9 @@ class Block:
 
     @staticmethod
     def genesis():
-        # return Block(
-        #     timestamp= GENESIS_DATA['timestamp'],
-        #     last_hash=GENESIS_DATA['last_hash'],
-        #     hash=GENESIS_DATA['hash'],
-        #     data=GENESIS_DATA['data']
-        #     )
+        """
+        generate the genesis block
+        """
         return Block(**GENESIS_DATA)
 
     @staticmethod
@@ -76,7 +81,7 @@ class Block:
 def main():
     genesis_block = Block.genesis()
     block = Block.mine_block(genesis_block,'foo')
-    print(block)
+    print(f'block:{block}')
 
 
 if __name__ == '__main__':
