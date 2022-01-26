@@ -40,6 +40,12 @@ class Block:
             f'nonce:{self.nonce})'
         )
 
+    def to_json(self):
+        '''
+        Serialize the block into a dictionary data type 
+        '''
+        return self.__dict__
+
     @staticmethod
     def mine_block(last_block,data):
         '''mine till block hash meets the leading work'''
