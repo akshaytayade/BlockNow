@@ -33,7 +33,7 @@ class Listener(SubscribeCallback):
                 print(f'\n -- Did not replace chain: {e}')
 class PubSub():
     '''
-    Hnadles the publish/subscribe layer of the application
+    Handles the publish/subscribe layer of the application
     Provides communication between the nodes of the blockchain network
     '''
     def __init__(self, blockchain):
